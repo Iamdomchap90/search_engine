@@ -15,28 +15,29 @@ class SearchEngine:
         self.text_files = []
 
     @staticmethod
-    def tokenize(text):
+    def tokenize(text: str) -> [str]:
         """Split text into words, remove punctuation, and normalize to lowercase."""
-        return re.findall(r'\b\w+\b', text.lower())
+
+        return re.findall(r"\b\w+\b", text.lower())
 
 
     def build_index(self) -> dict:
         """Build an inverted index for all text files in the given directory."""
 
-        for filename in os.listdir(directory):
-            if filename.endswith('.txt'):
+        for filename in os.listdir(self.directory):
+            if filename.endswith(".txt"):
                 self._file_count += 1
                 self.text_files.append(filename)
-                filepath = os.path.join(directory, filename)
-                with open(filepath, 'r', encoding='utf-8') as file:
+                filepath = os.path.join(self.directory, filename)
+                with open(filepath, "r", encoding="utf-8") as file:
                     text = file.read()
                     words = self.tokenize(text)
                     for position, word in enumerate(words):
                         self._index[word].append((filename, position))
-        print('Index: ', self._index)
         return dict(self._index)
 
     def file_rank(self, search_term: str, filename: str) -> (str, tuple):
+        """"""
         rank_count = 0
         search_term_set = set(self.tokenize(search_term))
 
@@ -50,6 +51,7 @@ class SearchEngine:
 
     def search_flow(self):
         """Multiple searches can be executed sequentially until user quits"""
+
         self._index = self.build_index()
 
         while True:
@@ -79,7 +81,7 @@ if __name__ == "__main__":
     parser.add_argument("directory", help="The directory to search in")
 
     args = parser.parse_args()
-    directory = args.directory
+    directory_path = args.directory
 
-    search_engine = SearchEngine(directory)
+    search_engine = SearchEngine(directory_path)
     search_engine.search_flow()
