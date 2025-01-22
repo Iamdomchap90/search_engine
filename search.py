@@ -31,13 +31,16 @@ class SearchEngine:
                 filepath = os.path.join(self.directory, filename)
                 with open(filepath, "r", encoding="utf-8") as file:
                     text = file.read()
+                    print("text: ", text)
                     words = self.tokenize(text)
+                    print("words: ", words)
                     for position, word in enumerate(words):
                         self._index[word].append((filename, position))
         return dict(self._index)
 
     def file_rank(self, search_term: str, filename: str) -> (str, tuple):
-        """"""
+        """Returns the filename and percentage of search terms that occur in file."""
+
         rank_count = 0
         search_term_set = set(self.tokenize(search_term))
 
@@ -53,7 +56,6 @@ class SearchEngine:
         """Multiple searches can be executed sequentially until user quits"""
 
         self._index = self.build_index()
-
         while True:
             ranks = []
             search = input("Enter search term (or 'quit' to exit): ")

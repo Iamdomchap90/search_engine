@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "search-engine"
+version = "0.1.0"
+description = "A simple search terminal search engine that fetches files that contain words within query."
+authors = ["Dominic Chaple <d0mch4pl3@gmail.com>"]
+readme = "README.md"
+packages = [{include = "search_engine"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^8.3.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
